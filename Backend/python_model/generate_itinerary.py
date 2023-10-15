@@ -1,155 +1,50 @@
+import pymongo
+import random
+from bson.objectid import ObjectId
+
+client = pymongo.MongoClient("mongodb+srv://Yatra:Yatra@yatrasahayak.0gw5pwg.mongodb.net/?retryWrites=true&w=majority")
+
+attraction_db = client["Attractions"]
+attractions_collection = attraction_db["attractions_in_mumbai"]
+attractions_data = list(attractions_collection.find({}))
+
+hotel_db = client["Hotels"]
+hotels_collection = hotel_db["Hotels_in_Mumbai"]
+hotels_data = list(hotels_collection.find({}))
+
+restaurant_db = client["Restaurants"]
+restaurants_collection = restaurant_db["restaurants_in_mumbai"]
+restaurants_data = list(restaurants_collection.find({}))
+
+bus_db = client["Buses"]
+bus_collection = bus_db["buses"]
+bus_data = list(bus_collection.find({}))
+
+train_db = client["Trains"]
+trains_collection = train_db["trains"]
+trains_data = list(trains_collection.find({}))
+
+flight_db = client["Flights"]
+flights_collection = flight_db["flights"] 
+flights_data = list(flights_collection.find({}))
+
+return_bus_db = client["Buses_return"]
+return_bus_collection = return_bus_db["Buses_return"]
+bus_data_return = list(return_bus_collection.find({}))
+
+return_train_db = client["Trains_return"]
+return_trains_collection = return_train_db["trains_return"]
+trains_data_return = list(return_trains_collection.find({}))
+
+return_flight_db = client["Flights_return"]
+return_flights_collection = return_flight_db["flights_return"] 
+flights_data_return = list(return_flights_collection.find({}))
+
+
 import sys
 import json
 # from typing import List, Dict
 
-attractions_data = [
-    {
-        "name": "Gateway of India",
-        "price": 100,
-        "address": "Mumbai, India"
-    },
-    {
-        "name": "Marine Drive",
-        "price": 0,
-        "address": "Mumbai, India"
-    },
-    {
-        "name": "Chhatrapati Shivaji Maharaj Terminus",
-        "price": 50,
-        "address": "Mumbai, India"
-    },
-    {
-        "name": "Elephanta Caves",
-        "price": 200,
-        "address": "Mumbai, India"
-    },
-    {
-        "name": "Siddhivinayak Temple",
-        "price": 0,
-        "address": "Mumbai, India"
-    }
-]
-
-bus_data = [
-    {
-        "name": "ABC",
-        "date": "2023-10-01",
-        "price": 1000,
-        "start_location": "Ahmedabad",
-        "destination": "Mumbai"
-    }
-]
-
-trains_data = [
-    {
-        "name": "PQR", 
-        "date": "2023-10-01",
-        "price": 1500,
-        "start_location": "Ahmedabad",
-        "destination": "Mumbai"
-    }
-]
-
-flights_data = [
-    {
-        "name": "XYZ",
-        "date": "2023-10-01",
-        "price": 2000,
-        "start_location": "Mumbai",
-        "destination": "Ahmedabad"
-    }
-]
-
-bus_data_return = [
-    {
-        "name": "XYZ",
-        "date": "2023-10-03",
-        "price": 1000,
-        "start_location": "Mumbai",
-        "destination": "Ahmedabad"
-    }
-]
-
-trains_data_return = [
-    {   
-        "name": "PQR",
-        "date": "2023-10-03",
-        "price": 1500,
-        "start_location": "Mumbai",
-        "destination": "Ahmedabad"
-    }
-]
-
-flights_data_return = [
-    {
-        "name": "XYZ",
-        "date": "2023-10-03",
-        "price": 2000,
-        "start_location": "Ahmedabad",
-        "destination": "Mumbai"
-    }
-]
-
-hotels_data = [
-    {
-        "name": "Taj Mahal Palace Hotel",
-        "price": 10000,
-        "address": "Mumbai",
-        "date" : "2023-10-01"
-    },
-    {
-        "name": "The Oberoi Mumbai",
-        "price": 8000,
-        "address": "Mumbai",
-        "date" : "2023-10-01"
-    },
-    {
-        "name": "The Trident Nariman Point, Mumbai",
-        "price": 6000,
-        "address": "Mumbai",
-        "date" : "2023-10-01"
-    },
-    {
-        "name": "Abc",
-        "price": 1300,
-        "address": "Delhi",
-        "date" : "2023-10-01"
-    },
-    {
-        "name": "xyz",
-        "price": 1000,
-        "address": "Pune",
-        "date" : "2023-10-01"
-    },
-]
-
-restaurants_data = [
-    {
-        "name": "Trishna",
-        "price": 1800,
-        "address": "Mumbai"
-    },
-    {
-        "name": "Abc",
-        "price": 2300,
-        "address": "Delhi"
-    },
-    {
-        "name": "xyz",
-        "price": 2000,
-        "address": "Pune"
-    },
-    {
-        "name": "Masala Library",
-        "price": 1500,
-        "address": "Mumbai"
-    },
-    {
-        "name": "The Table",
-        "price": 1000,
-        "address": "Mumbai"
-    }
-]
 
 class GreedyTravelItineraryModel:
   def __init__(self, attractions_data, hotels_data, restaurants_data, bus_data, trains_data, flights_data, bus_data_return, trains_data_return, flights_data_return):
@@ -163,70 +58,80 @@ class GreedyTravelItineraryModel:
     self.trains_data_return = trains_data_return
     self.flights_data_return = flights_data_return
 
-  def generate_itinerary(self, num_travelers, start_location, destination, budget, date_of_departure, date_of_return, duration_of_stay):
+  def generate_itinerary(self, num_travelers, start_location, destination, budget, date_of_departure, date_of_return, duration_of_stay, preferences={}):
 
     # Initialize the itinerary
     itinerary = []
 
-    # Choose the best transportation option
+     # Choose the best transportation option
     transportation = None
-    for transportation_option in self.bus_data + self.trains_data + self.flights_data:
-        if transportation_option["price"] <= budget and transportation_option["date"] == date_of_departure:
-            if transportation is None or transportation_option["price"] < transportation["price"]:
-                transportation = transportation_option
+    for transportation_option in self.bus_data + self.flights_data + self.trains_data:
+        if "price" in transportation_option and transportation_option["price"]:
+            try:
+                price = float(transportation_option["price"])  # Convert to float
+                if price <= budget and transportation_option.get("departure_date") == date_of_departure:
+                    if transportation is None or price < float(transportation.get("price", float('inf'))):
+                        transportation = transportation_option
+            except ValueError:
+                print("Invalid 'price' value for transportation:", transportation_option["price"])
 
     # Choose the best return_transportation option
+    # Corrected code to access "price" field instead of "price"
     return_transportation = None
-    for return_transportation_option in self.bus_data_return + self.trains_data_return + self.flights_data_return:
-        if return_transportation_option["price"] <= budget and return_transportation_option["date"] == date_of_return:
-            if return_transportation is None or return_transportation_option["price"] < return_transportation["price"]:
+    for return_transportation_option in self.bus_data_return + self.flights_data_return + self.trains_data_return:
+        if "price" in return_transportation_option and return_transportation_option["price"] <= budget and return_transportation_option.get("departure_date") == date_of_return:
+            if return_transportation is None or return_transportation_option["price"] < return_transportation.get("price", float('inf')):
                 return_transportation = return_transportation_option
 
     # Choose the best hotel
     hotel = None
     for hotel_option in self.hotels_data:
-        if hotel_option["price"] <= budget and hotel_option["address"] == destination and hotel_option["date"] == date_of_departure:
+        if hotel_option["price"] <= budget and hotel_option["checkin"] == date_of_departure:
             if hotel is None or hotel_option["price"] < hotel["price"]:
                 hotel = hotel_option
 
     # Choose the best restaurants
     restaurants = []
-    num_restaurants = min(2 * data["duration_of_stay"], len(self.restaurants_data))
+    num_restaurants = min(2 * duration_of_stay, len(self.restaurants_data))
     for restaurant_option in self.restaurants_data[:num_restaurants]:
-        if restaurant_option["price"] <= budget and restaurant_option["address"] == destination:
+        if restaurant_option["price"] <= budget:
             restaurants.append(restaurant_option)
 
     # Choose the best attractions
     attractions = []
-    num_attractions = min(2 * data["duration_of_stay"], len(self.attractions_data))
+    num_attractions = min(4 * duration_of_stay, len(self.attractions_data))
     for attraction_option in self.attractions_data[:num_attractions]:
-        if attraction_option["price"] <= budget:
-            attractions.append(attraction_option)
+        attractions.append(attraction_option)
 
     # Add the transportation, hotel, restaurants, and attractions to the itinerary
     itinerary.append(transportation)
     itinerary.append(hotel)
-    itinerary.extend(restaurants)
-    itinerary.extend(attractions)
+    for restaurant in restaurants:
+      itinerary.append(restaurant)
+    for attraction in attractions:
+        itinerary.append(attraction)
     itinerary.append(return_transportation)
 
     # Calculate the total cost of the itinerary
     total_cost = 0
-    for item in itinerary:
-        # Check if item is not None and has a 'price'
-        if item and 'price' in item:
-            total_cost += item['price']
+    # Multiply the price of each item by the number of travelers
+    total_cost = transportation['price'] * num_travelers + return_transportation['price'] * num_travelers + hotel['price'] * num_travelers * duration_of_stay + sum([restaurant['price'] for restaurant in restaurants]) * num_travelers
 
     # Check if the total cost is greater than the budget
     if total_cost > budget:
-        return None
-    else:
-        return itinerary
+      return None
+
+    return itinerary
 
 
 data = json.loads(sys.argv[1])
 
-
+class ObjectIdEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, ObjectId):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
+    
 # Initialize the model
 model = GreedyTravelItineraryModel(attractions_data, hotels_data, restaurants_data, bus_data, trains_data, flights_data, bus_data_return, trains_data_return, flights_data_return)
 
@@ -239,7 +144,7 @@ total_cost_transportation = 0
 total_cost_return_transportation = 0
 total_cost_hotel = 0
 total_cost_food = 0
-total_cost_attractions = 0
+# total_cost_attractions = 0
 total_cost_transportation_both=0
 restaurant_items = []
 attractions_items = []
@@ -250,30 +155,39 @@ for item in itinerary:
         # Check if the item is transportation, hotel, return_transportation, or attraction
         if item in bus_data + trains_data + flights_data:
             total_cost_transportation += item['price'] * data["num_travelers"]
-            transportation_items = [item]
+            # transportation_items = [item]
         elif item in hotels_data:
             total_cost_hotel += item['price'] * data["num_travelers"] * data["duration_of_stay"]
-            hotels_items = [item]
+            # hotels_items = [item]
         elif item in bus_data_return + trains_data_return + flights_data_return:
             total_cost_return_transportation += item['price']
-            return_transportation_items = [item]
+            # return_transportation_items = [item]
         elif item in restaurants_data:
             total_cost_food += item['price'] * data["num_travelers"]
-            restaurant_items.append(item)
-        elif item in attractions_data:
-            total_cost_attractions += item['price'] * data["num_travelers"]
-            attractions_items.append(item)
+            # restaurant_items.append(item)
 
 total_cost_transportation_both = (total_cost_transportation + total_cost_return_transportation) * data["num_travelers"]
 # Calculate the total cost including return transportation
-total_cost = total_cost_transportation_both + total_cost_hotel + total_cost_food + total_cost_attractions
+total_cost = total_cost_transportation_both + total_cost_hotel + total_cost_food
 
+if itinerary is not None:
+  for item in itinerary:
+    if item in bus_data + trains_data + flights_data:
+        transportation_items = [item]
+    elif item in hotels_data:
+        hotels_items = [item]
+    elif item in bus_data_return + trains_data_return + flights_data_return:
+        return_transportation_items = [item]
+    elif item in restaurants_data:
+        restaurant_items.append(item)
+    elif item in attractions_data:
+        attractions_items.append(item)
 
 # Create a dictionary containing the itinerary and calculations
 result = {
     'itinerary': {
         'transportation': transportation_items,
-        'attraction': attractions_items,
+        'attractions': attractions_items,
         'hotels': hotels_items,
         'restaurants': restaurant_items,
         'return_transportation': return_transportation_items 
@@ -282,10 +196,13 @@ result = {
         'transportation': total_cost_transportation_both,
         'hotel': total_cost_hotel,
         'food': total_cost_food,
-        'attractions': total_cost_attractions,
         'total': total_cost
     }
 }
 
-# Print the result to stdout
-print(json.dumps(result))
+
+# Serialize the itinerary result using the custom JSON encoder
+result = json.dumps(result, cls=ObjectIdEncoder)
+
+# Send the itinerary result to the client
+print(result)

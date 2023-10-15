@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const Trains = ({ item }) => (
+const TrainsReturn = ({ item }) => (
     <div className="card">
         <div className="card-content">
             <div className="all-tags">
@@ -13,7 +13,7 @@ const Trains = ({ item }) => (
                 </div>
             </div>
             <h2 className="card-title">{item?.name}</h2>
-            <div className="item?-info">
+            <div className="train-info">
                 <p><b>Train no:</b> {item?.number}</p>
                 <p><b>Duration:</b> {item?.duration}</p>
                 <p><b>Departure-time:</b> {item?.departure_time}</p>
@@ -29,4 +29,4 @@ const Trains = ({ item }) => (
     </div>
 );
 
-export default Trains
+export default TrainsReturn

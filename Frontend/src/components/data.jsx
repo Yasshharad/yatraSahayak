@@ -29,36 +29,6 @@ export const locationData = [
     },
 ];
 
-export const busData = [
-    {
-        agency: "Rajdhani Travels (Patan)",
-        class: "NON-AC Sleeper (2 + 1)",
-        price: 1000,
-        seats_left: "11 Seats Left",
-        departure_time: "18:15",
-        duration: "09h 40m",
-        destination_time: "03:55",
-        date: "01-09-2023",
-        destination: "Mumbai",
-        departure: "Ahamdabad"
-    }
-];
-
-
-export const busDataReturn = [
-    {
-        agency: "Shree New Santinath Travels",
-        class: "NON-AC Sleeper (2 + 1)",
-        price: 700,
-        seats_left: "13 Seats Left",
-        departure_time: "12:00",
-        duration: "13h 00m",
-        destination_time: "01:00",
-        date: "03-09-2023",
-        destination: "Ahmadabad",
-        departure: "Mumbai"
-    }
-];
 export const hotels = [
     {
         checkin: "2023-09-01",
@@ -95,10 +65,47 @@ export const restaurants = [
     }
 ];
 
+export const busData = [
+    {
+        type: "Bus",
+        card_state: "Destination",
+        agency: "Rajdhani Travels (Patan)",
+        class: "NON-AC Sleeper (2 + 1)",
+        prices: 1000,
+        seats_left: "11 Seats Left",
+        departure_time: "18:15",
+        duration: "09h 40m",
+        destination_time: "03:55",
+        date: "01-09-2023",
+        destination: "Mumbai",
+        departure: "Ahamdabad"
+    }
+];
+
+
+export const busDataReturn = [
+    {
+        type: "Bus",
+        card_state: "Return",
+        agency: "Shree New Santinath Travels",
+        class: "NON-AC Sleeper (2 + 1)",
+        prices: 700,
+        seats_left: "13 Seats Left",
+        departure_time: "12:00",
+        duration: "13h 00m",
+        destination_time: "01:00",
+        date: "03-09-2023",
+        destination: "Ahmadabad",
+        departure: "Mumbai"
+    }
+];
+
 export const flights = [
     {
+        type: "Flight",
+        card_state: "Destination",
         airline: "Vistara",
-        price: 4137.13,
+        prices: 100,
         duration: "1h 30m",
         departure_time: "18:40",
         destination_time: "20:10",
@@ -112,8 +119,10 @@ export const flights = [
 
 export const flightsReturn = [
     {
+        type: "Flight",
+        card_state: "Return",
         airline: "Star Air India",
-        price: 11851.58,
+        prices: 11851.58,
         duration: "3h 15m",
         departure_time: "12:30",
         destination_time: "15:45",
@@ -127,6 +136,8 @@ export const flightsReturn = [
 
 export const train = [
     {
+        type: "Train",
+        card_state: "Destination",
         name: "CHALUKYA EXP",
         number: "11006",
         duration: " 23hr 5min",
@@ -136,5 +147,25 @@ export const train = [
         destination_station: "DR",
         departure_date: "Wed, 1 Nov",
         destination_date: "Thu, 2 Nov",
+        duration_minutes: 410,
+        prices: 600
+    }
+];
+
+export const trainReturn = [
+    {
+        type: "Train",
+        card_state: "Return",
+        name: "DADAR BGKT EXP",
+        number: "14808",
+        duration: " 9hr ",
+        departure_time: "00:05",
+        destination_time: "09:05",
+        departure_station: "Mumbai",
+        destination_station: "Ahamdabad",
+        departure_date: "01-11-2023",
+        destination_date: "01-11-2023",
+        duration_minutes: 540,
+        prices: 870
     }
 ];

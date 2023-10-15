@@ -615,7 +615,25 @@ b {
 
 .bus-card {
     display: flex;
-    justify-content: space-around;
+}
+
+.box {
+    height: 30px;
+    width: 100px;
+    color: #fff;
+    background-color: #e17b77;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.all-tags {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-bottom: 3%;
 }
 
 .sub-card {
@@ -643,15 +661,28 @@ b {
 
 .flight-card {
     display: flex;
-    justify-content: space-around;
 }
 
 /* Trains */
 
 .train-card {
     display: flex;
-    /* flex-direction: column; */
-    justify-content: center;
+}
+
+.train-info {
     margin-top: 3%;
+    color: #777;
+}
+
+.travel-details {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     margin-bottom: 5%;
+}
+
+@media (max-width:960px) {
+    .travel-details {
+        flex-direction: column;
+    }
 }
