@@ -69,7 +69,7 @@ class GreedyTravelItineraryModel:
         if "price" in transportation_option and transportation_option["price"]:
             try:
                 price = float(transportation_option["price"])  # Convert to float
-                if price <= budget and transportation_option.get("departure_date") == date_of_departure:
+                if price <= budget and transportation_option.get("departure_date") == date_of_departure and transportation_option.get("departure") == start_location and transportation_option.get("destination") == destination:
                     if transportation is None or price < float(transportation.get("price", float('inf'))):
                         transportation = transportation_option
             except ValueError:
@@ -79,7 +79,7 @@ class GreedyTravelItineraryModel:
     # Corrected code to access "price" field instead of "price"
     return_transportation = None
     for return_transportation_option in self.bus_data_return + self.flights_data_return + self.trains_data_return:
-        if "price" in return_transportation_option and return_transportation_option["price"] <= budget and return_transportation_option.get("departure_date") == date_of_return:
+        if "price" in return_transportation_option and return_transportation_option["price"] <= budget and return_transportation_option.get("departure_date") == date_of_return and return_transportation_option.get("departure") == destination and return_transportation_option.get("destination") == start_location:
             if return_transportation is None or return_transportation_option["price"] < return_transportation.get("price", float('inf')):
                 return_transportation = return_transportation_option
 

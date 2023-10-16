@@ -11,6 +11,7 @@ import FlightReturn from './FlightReturn';
 import Trains from './Trains';
 import TrainsReturn from './TrainsReturn';
 
+
 const Itinerary = () => {
     const location = useLocation();
     const itineraryData = location.state?.itineraryData;
@@ -148,6 +149,10 @@ const Itinerary = () => {
                         }
                     </div>
                 </div>
+            </div>
+            <hr />
+            <div className="link-button1">
+                <a href="/">Generate Again</a> <span /> <button>Download Itinerary</button>
             </div>
         </div>
     );

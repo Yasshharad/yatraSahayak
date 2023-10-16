@@ -569,7 +569,40 @@ input {
     transition: background-color 0.3s ease;
 }
 
+.link-button1 a:hover {
+    background-color: #ee9996;
+}
+
+.link-button1 {
+    display: block;
+    text-align: center;
+    padding: 50px;
+}
+
+.link-button1 a {
+    text-decoration: none;
+    background-color: #e17b77;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
 .link-button a:hover {
+    background-color: #ee9996;
+}
+
+.link-button1 button {
+    text-decoration: none;
+    background-color: #e17b77;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.link-button button:hover {
     background-color: #ee9996;
 }
 
